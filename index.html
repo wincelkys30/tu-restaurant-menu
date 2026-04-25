@@ -1,42 +1,133 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Restaurant Menu</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        h1 { color: #ff6347; }
-        .menu { margin-top: 20px; }
-        .menu-item { margin-bottom: 15px; }
-        .menu-item h2 { margin: 0; font-size: 1.5em; }
-        .menu-item p { margin: 5px 0; }
-        .menu-item .price { font-weight: bold; }
-    </style>
+    <title>Tu Restaurant - Menú Digital</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Welcome to Our Restaurant!</h1>
-    <div class="menu">
-        <div class="menu-item">
-            <h2>Appetizers</h2>
-            <p>Bruschetta - Toasted bread topped with tomatoes, basil, and mozzarella <span class="price">$8</span></p>
-            <p>Stuffed Mushrooms - Mushrooms stuffed with garlic herb cheese <span class="price">$10</span></p>
-        </div>
-        <div class="menu-item">
-            <h2>Main Courses</h2>
-            <p>Margherita Pizza - Classic pizza with fresh mozzarella, tomatoes, and basil <span class="price">$12</span></p>
-            <p>Pasta Carbonara - Spaghetti with eggs, cheese, pancetta, and pepper <span class="price">$14</span></p>
-        </div>
-        <div class="menu-item">
-            <h2>Desserts</h2>
-            <p>Tiramisu - Coffee-flavored Italian dessert <span class="price">$6</span></p>
-            <p>Chocolate Lava Cake - Rich chocolate cake with molten center <span class="price">$7</span></p>
-        </div>
-        <div class="menu-item">
-            <h2>Beverages</h2>
-            <p>Soft Drinks - A variety of sodas <span class="price">$3</span></p>
-            <p>Coffee - Freshly brewed coffee <span class="price">$4</span></p>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1>🍽️ Tu Restaurant</h1>
+                <p class="subtitle">Deliciosa comida para llevar</p>
+            </div>
+            <div class="header-actions">
+                <button class="btn-cart" id="btnCart">
+                    🛒 Carrito (<span id="cartCount">0</span>)
+                </button>
+                <button class="btn-admin" id="btnAdmin">⚙️ Admin</button>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Menu Cliente -->
+            <div id="clientMenu" class="section active">
+                <!-- Filtro de categorías -->
+                <div class="category-filter">
+                    <button class="category-btn active" data-category="todos">Todos</button>
+                    <button class="category-btn" data-category="carnes">🥩 Carnes Saladas</button>
+                    <button class="category-btn" data-category="bebidas">🥤 Bebidas</button>
+                </div>
+
+                <!-- Grid de productos -->
+                <div class="products-grid" id="productsGrid">
+                    <!-- Se llena dinámicamente -->
+                </div>
+            </div>
+
+            <!-- Carrito -->
+            <div id="cartMenu" class="section">
+                <h2>Tu Carrito</h2>
+                <div class="cart-items" id="cartItems">
+                    <p class="empty-cart">El carrito está vacío</p>
+                </div>
+                <div class="cart-summary" id="cartSummary" style="display: none;">
+                    <div class="total">
+                        <strong>Total: RD$<span id="cartTotal">0.00</span></strong>
+                    </div>
+                    <input type="text" id="clientName" placeholder="Tu nombre" maxlength="50">
+                    <textarea id="clientAddress" placeholder="Tu dirección o ubicación" maxlength="200"></textarea>
+                    <button class="btn-whatsapp" id="btnWhatsapp">
+                        📱 Enviar por WhatsApp
+                    </button>
+                </div>
+            </div>
+
+            <!-- Panel Admin -->
+            <div id="adminPanel" class="section">
+                <h2>Panel de Administración</h2>
+                
+                <!-- Contraseña -->
+                <div id="loginForm" class="admin-login">
+                    <input type="password" id="adminPassword" placeholder="Contraseña de admin">
+                    <button class="btn-primary" id="btnLogin">Acceder</button>
+                </div>
+
+                <!-- Contenido Admin (oculto hasta validar) -->
+                <div id="adminContent" style="display: none;">
+                    <button class="btn-logout" id="btnLogout">Cerrar sesión</button>
+
+                    <!-- Gestor de productos -->
+                    <div class="admin-section">
+                        <h3>Gestionar Productos</h3>
+                        
+                        <div class="admin-form">
+                            <input type="text" id="productName" placeholder="Nombre del producto">
+                            <input type="number" id="productPrice" placeholder="Precio" min="0" step="0.01">
+                            <select id="productCategory">
+                                <option value="carnes">🥩 Carnes Saladas</option>
+                                <option value="bebidas">🥤 Bebidas</option>
+                            </select>
+                            <textarea id="productDescription" placeholder="Descripción (opcional)"></textarea>
+                            <button class="btn-primary" id="btnAddProduct">Agregar Producto</button>
+                        </div>
+
+                        <!-- Lista de productos editables -->
+                        <div class="products-list" id="adminProductsList">
+                            <!-- Se llena dinámicamente -->
+                        </div>
+                    </div>
+
+                    <!-- Gestión de guarniciones -->
+                    <div class="admin-section">
+                        <h3>Gestionar Guarniciones</h3>
+                        <div class="admin-form">
+                            <input type="text" id="sideGarnName" placeholder="Nombre de la guarnición">
+                            <button class="btn-primary" id="btnAddGarnish">Agregar Guarnición</button>
+                        </div>
+                        <div class="garnish-list" id="garnishList">
+                            <!-- Se llena dinámicamente -->
+                        </div>
+                    </div>
+
+                    <!-- Backup & Restaurar -->
+                    <div class="admin-section">
+                        <h3>Datos</h3>
+                        <button class="btn-primary" id="btnExport">📥 Descargar Datos</button>
+                        <button class="btn-primary" id="btnImport">📤 Restaurar Datos</button>
+                        <input type="file" id="importFile" accept=".json" style="display: none;">
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Modal para seleccionar guarnición -->
+        <div id="garnishModal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <h3>Selecciona una guarnición</h3>
+                <div id="garnishOptions" class="garnish-options">
+                    <!-- Se llena dinámicamente -->
+                </div>
+                <button class="btn-primary" id="btnConfirmGarnish">Confirmar</button>
+                <button class="btn-secondary" id="btnCancelGarnish">Cancelar</button>
+            </div>
         </div>
     </div>
+
+    <script src="app.js"></script>
 </body>
 </html>
