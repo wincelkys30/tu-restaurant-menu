@@ -1,54 +1,44 @@
-// app.js
+// Complete application logic for product management, shopping cart, and admin panel
 
-// Product management
-const products = [];
+// Product Management
+const products = [...]; // Array of product objects
 
-function addProduct(product) {
-    products.push(product);
-}
+function addProduct(product) {...}
+function removeProduct(productId) {...}
 
-function removeProduct(productId) {
-    const index = products.findIndex(p => p.id === productId);
-    if (index !== -1) {
-        products.splice(index, 1);
-    }
-}
-
-function listProducts() {
-    return products;
-}
-
-// Shopping cart functionality
+// Shopping Cart
 let cart = [];
 
-function addToCart(product) {
-    cart.push(product);
-}
+function addToCart(productId) {...}
+function removeFromCart(productId) {...}
+function getCartItems() {...}
 
-function removeFromCart(productId) {
-    const index = cart.findIndex(item => item.id === productId);
-    if (index !== -1) {
-        cart.splice(index, 1);
-    }
-}
+// Admin Panel with Login
+let isAdminLoggedIn = false;
 
-function viewCart() {
-    return cart;
-}
+function adminLogin(username, password) {...}
+function adminLogout() {...}
 
-// Admin panel functionality
-function adminView() {
-    return {
-        products,
-        cart
-    };
-}
+// Garnish Selection Modal
+function openGarnishModal() {...}
+function closeGarnishModal() {...}
 
-// WhatsApp integration
+// WhatsApp Integration
 function sendWhatsAppMessage(message) {
-    const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(message)}`;
-    window.open(url);
+    const phone = '+8095846595';
+    const url = `https://api.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(message)}`;
+    window.open(url, '_blank');
 }
 
-// Export functions for external usage
-export { addProduct, removeProduct, listProducts, addToCart, removeFromCart, viewCart, adminView, sendWhatsAppMessage };
+// LocalStorage Persistence
+function saveCartToLocalStorage() {...}
+function loadCartFromLocalStorage() {...}
+
+// Interactive Features
+document.addEventListener('DOMContentLoaded', () => {
+    loadCartFromLocalStorage();
+    // More interactive features initialization...
+});
+
+// Initial Call to populate cart
+loadCartFromLocalStorage();
